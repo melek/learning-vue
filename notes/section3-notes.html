@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue JS Section 3 Lecture Practice</title>
+    <script src="vue.js"></script>
+    <style>
+    </style>
+</head>
+<body>
+
+    <div id="app">        
+        <p v-if="show">You can see me! <span>Hello!</span></p>        
+        <p v-else>Now you see me!</p>        
+        <template v-if="show">
+            <h1>Template Heading</h1>
+            <p>Inside a template</p>
+        </template>        
+        <p v-show="show">Do you also see me?</p>        
+        <button @click="show = !show">Switch!</button>
+        <hr>
+        <ul>
+            <li v-for="(ingredient, i) in ingredients" :key="ingredient + i">{{ ingredient }} ({{ i }})</li>
+        </ul>
+        <button @click="addIngredient">Add Spices!</button>
+        <template v-if="show" v-for="(ingredient, i) in ingredients">
+            <h3>{{ ingredient }}</h3>
+            <p>{{ index }}</p>
+        </template>
+        <hr>
+        <ul>
+            <li v-for="person in persons">{{ person.name }} is {{ person.age }} and prefers {{ person.color }}!</li>
+        </ul>
+        <ul>
+            <li v-for="person in persons"><div v-for="(value, key, index) in person">{{ key }} : {{ value }} ({{ index }})</div></li>
+        </ul>
+        <span v-for="n in 10">{{ n }} </span>
+    </div>
+
+<script>
+new Vue({
+    el: "#app",
+    data: {
+        show: false,
+        ingredients: ['carrots', 'broth', 'sage', 'breadcrumbs'],
+        persons: [
+            {name: 'Lionel', age: 36, color: 'blue'},
+            {name: 'Laura',  age: 35, color: 'slate'}
+        ]
+    },
+    methods: {
+        addIngredient: function() {
+            this.ingredients.push("spices");
+        }
+    }
+});
+</script>
+</body>
+</html>

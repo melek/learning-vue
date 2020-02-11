@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue JS Section 6 Lecture Practice</title>
+    <script src="vue.js"></script>
+    <style>
+    </style>
+</head>
+<body>
+
+<div id="app">
+    <h1>Component Test</h1>
+    <ldg-status></ldg-status>
+    <hr>
+    <ldg-status></ldg-status>
+</div>
+
+<div id="app2">
+    <h1>Component Test</h1>
+    <ldg-status></ldg-status>
+    <hr>
+    <ldg-status></ldg-status>
+</div>
+
+<script>
+var cmp = { 
+    data: function() {
+        return { status: false };
+    },
+    template: "<p>Server status: {{ status ? 'Critical' : 'Normal' }} <button @click='changeStatus'>Change</button></p>",
+    methods: {
+        changeStatus: function() {
+            this.status = !this.status;
+        }
+    }
+};
+
+new Vue({    
+    el: "#app",
+    components: {
+        'ldg-status': cmp
+    }
+});
+
+new Vue({
+    el: "#app2"    
+});
+</script>
+</body>
+</html>

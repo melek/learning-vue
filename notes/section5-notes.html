@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue JS Section 5 Lecture Practice</title>
+    <script src="vue.js"></script>
+    <style>
+    </style>
+</head>
+<body>
+
+    <div id="app1">        
+        <h1 ref="myHeading">{{ title }}</h1>
+        <button @click="show" ref="myButton">Show Paragraph</button>
+        <p v-if="showParagraph">This is not always visible</p>
+    </div>
+    <hr>
+    <div id="app2">        
+        <h1>{{ title }}</h1>
+        <button @click="onChange">Change something in Vue 1</button>        
+        <!--<hello></hello>
+        <hello></hello>-->        
+    </div>
+    <hr>
+    <div id="app3">
+
+    </div>
+    <hr>
+    <div id="app4">
+        <h1> {{ title }} </h1>
+        <button @click="title = 'Changed'">Change Title</button>
+        <button @click="destroy">Destroy!!</button>
+    </div>
+
+<script>
+var data = {
+    title: "The VueJS Instance",
+    showParagraph: false
+};
+
+/*Vue.component('hello', {
+    template: "<h1>Hello!</h1>"
+});*/
+
+var vm1 = new Vue({    
+    data: data,
+    methods: {
+        show: function() {
+            this.showParagraph = true;
+            this.updateTitle('The VueJS Instance (Updated)');
+            console.log(this.$refs);
+            this.$refs.myButton.innerText = "Test";
+        },
+        updateTitle: function(title) {
+            this.title = title;            
+        }
+    },
+    computed: {
+        lowercaseTitle: function() {
+            return this.title.toLowerCase();
+
+        }
+    },
+    watch: {
+        title: function(value) {
+            alert('Title changed, new value: ' + value);
+        }
+    }
+});
+
+vm1.$mount('#app1');
+
+console.log(vm1.$data === data);
+vm1.$refs.myHeading.innerText = 'Something else';
+
+setTimeout(function() {
+    vm1.title = 'Changed by Timer';
+    vm1.show();
+}, 3000);
+
+var vm2 = new Vue({
+    el: "#app2",
+    data: {
+        title: "A Second Instance"
+    },
+    methods: {
+        onChange: function() {
+            vm1.title = "Vue2 set this title";
+        }
+    }
+}); 
+
+/*var vm3 = new Vue({
+    el: '.hello',
+    template: '<h1>Hello!</h1>'
+});*/
+
+//vm3.$mount();
+//document.getElementById('app3').appendChild(vm3.$el);
+
+var vm4 = new Vue({
+    el:"#app4",
+    data: {
+        title: "The VueJS Instance"
+    },    
+    beforeCreate: function() {
+        console.log("beforeCreate()");
+    },
+    created: function() {
+        console.log("created()");
+    },
+    beforeMount: function() {
+        console.log("beforeMount()");
+    },
+    mounted: function() {
+        console.log("mounted()");
+    },
+    beforeUpdate: function() {
+        console.log("beforeUpdate()");
+    },
+    updated: function() {
+        console.log("updated()");
+    },
+    beforeDestroy: function() {
+        console.log("beforeDestroy()");
+    },
+    destroyed: function() {
+        console.log("destroyed()");
+    },
+    methods: {
+        destroy: function() {
+            this.$destroy();
+        }
+    }
+});
+</script>
+</body>
+</html>

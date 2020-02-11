@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Vue JS Section 2 Lecture Practice</title>
+    <script src="vue.js"></script>
+    <style>
+        .demo {
+            margin: 1rem;
+            background-color: silver;
+            height: 150px;
+            width: 150px;
+            display: inline-block;
+        }
+
+        .red {
+            background-color: red;
+        }
+
+        .blue {
+            background-color: blue;            
+        }
+
+        .green {
+            background-color: green;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="app">        
+        <h1 v-once>{{ title }}</h1>
+        <p>{{ sayHello() }} - <a v-bind:href="link">Lionel Tarot</a></p>
+        <hr>
+        <p v-html="finishedLink"></p>
+        <hr>
+        <button v-on:click="increaseCounter()">Add 1</button>
+        <button v-on:click="increaseCounter(3, $event)">Add 3</button>
+        <p>{{ counter }}</p>
+        <p v-on:mousemove="updateCoords">
+            Coordinates: {{ x }} / {{ y }}
+            <span v-on:mousemove.stop>DEAD SPOT</span>            
+        </p>
+        <input type="text" v-on:keyup.enter.space="alertMe">
+        <hr>
+        <input type="text" v-model="value">
+        <p>{{ value }}</p>
+        <hr>
+        <button v-on:click="counter++">Increase</button>
+        <button v-on:click="counter--">Decrease</button><br>
+        <button v-on:click="counter2++">Increase 2nd</button>
+        <button v-on:click="counter2--">Decrease 2nd</button>
+        <p>Counters: {{ counter }} | {{ counter2 }}</p>
+        <p>Results: {{ result() }} | {{ output }}</p>
+        <hr>
+        <button @click="changeLink">Click to toggle Link</button>
+        <a :href="link">Link ({{ link }})</a>
+        <hr>
+        <div class="demo" @click="attachRed = !attachRed" :class="divClasses"></div>
+        <div class="demo" :class="{red:attachRed}"></div>
+        <div class="demo" :class="[color, {red: attachRed}]"></div>
+        <hr>
+        Class Name: <input type="text" v-model="color">
+        <hr>
+        <div class="demo" :style="{backgroundColor: color}"></div>
+        <div class="demo" :style="myStyle"></div>
+        <div class="demo" :style="[myStyle, {height: width + 'px'}]"></div>
+        <hr>
+        Background Color: <input type="text" v-model="color">
+        Width: <input type="text" v-model="width">
+    </div>
+    </div>
+
+<script>
+new Vue({
+    el: "#app",
+    data: {
+        title: "Hello World!",
+        link: "https://lioneltarot.com",
+        finishedLink: "<a href='https://google.com'>Go to Google</a>",
+        counter: 0,
+        x: 0,
+        y: 0,
+        value: '',
+        counter2: 0,
+        attachRed: false,
+        color: 'gray',
+        width: 150
+    },
+    computed: {
+        myStyle: function() {
+            return {
+                backgroundColor: this.color,
+                width: this.width + 'px'
+            };
+        },
+        output: function() {
+            console.log('Computed');
+            return this.counter > 5 ? "Greater than 5" : "Smaller or Equal to 5";
+        },
+        divClasses: function() {
+            return {
+                red: this.attachRed,
+                blue: !this.attachRed
+            }
+        }
+    },
+    watch: {
+        counter: function(arg) {
+            var vm = this;
+            setTimeout(function() { vm.counter = 0; }, 2000);
+        }
+    }, 
+    methods: {    
+        result: function() {
+            console.log('Method');
+            return this.counter > 5 ? "Greater than 5" : "Smaller or Equal to 5";
+        },
+        sayHello: function() {
+            this.title = 'Hello!';
+            return this.title;
+        },
+        increaseCounter: function(step, event) {   
+            if(isNaN(step)) {
+                step = 1;
+            }
+            this.counter += step;
+        },
+        updateCoords: function(event) {
+            this.x = event.clientX;
+            this.y = event.clientY;
+        },
+        alertMe: function() {
+            alert('Alert!');
+        },
+        changeLink: function() {
+            link1 = "https://lioneltarot.com";
+            link2 = "https://lionelweb.com";
+            if(this.link == link1) {
+                this.link = link2;
+            }
+            else {
+                this.link = link1;
+            }
+        }        
+    }
+});
+</script>
+</body>
+</html>

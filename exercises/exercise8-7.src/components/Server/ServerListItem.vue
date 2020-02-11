@@ -1,15 +1,19 @@
 <template>
   <li
     class="list-group-item"
+    style="cursor: pointer"
     :style="backgroundStyle"
     @click="viewServer">
-      {{ serverInfo.name }}
+      {{ serverIndex }} : {{ serverInfo.name }}
   </li>
 </template>
 
 <script>
+import { eventBus } from '../../main';
+
 export default {
   props: {
+    serverIndex: Number,
     serverInfo: {
       type: Object,
       default: {
@@ -35,7 +39,7 @@ export default {
   },
   methods: {
     viewServer() {
-      eventBus.viewServer(this.serverInfo.name);
+      eventBus.serverViewUpdate(this.serverIndex, this.serverInfo);
     }
   }
 }

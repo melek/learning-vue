@@ -2,15 +2,19 @@
     <div class="col-xs-12 col-sm-6">
         <ul class="list-group">
             <app-server
-              v-for="server in servers"
-              :serverInfo="server">
+              v-for="(server, index) in servers"
+              :serverIndex="index"
+              :serverInfo="server"
+              :key="index">
             </app-server>
         </ul>
     </div>
 </template>
 
 <script>
-import ServerListItem from './ServerListItem.vue'
+
+import ServerListItem from './ServerListItem.vue';
+import { eventBus } from '../../main';
 
 export default {
   components: {
@@ -26,6 +30,11 @@ export default {
         { name: "Pentagon", status: "normal"}
       ]
     }
+  },
+  created() {
+    eventBus.$on("serverStatusUpdate", (serverIndex, newStatus) => {
+      this.servers[serverIndex].status = newStatus;
+    });
   }
 };
 </script>

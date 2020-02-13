@@ -98,7 +98,7 @@
                             id="priority"
                             class="form-control"
                             v-model="selectedPriority">
-                        <option v-for="priority in priorities">{{ priority }}</option>
+                        <option v-for="priority in priorities" :key="priority">{{ priority }}</option>
                     </select>
                 </div>
             </div>
@@ -132,7 +132,7 @@
                           <p v-if="sendMail.length > 0">
                             <strong>Requested Mailings:</strong>
                           <ul>
-                              <li v-for="mailtype in sendMail">{{mailtype}}</li>
+                              <li v-for="mailtype in sendMail" :key="mailtype">{{mailtype}}</li>
                           </ul></p>
                           <p>Gender: {{ userData.gender }}</p>
                           <p>Priority: {{ selectedPriority }}</p>
